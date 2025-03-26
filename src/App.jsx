@@ -26,7 +26,7 @@ const Header = styled.header`
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register('./service-worker.js') // Asegúrate de que la ruta sea correcta
+      .register('/service-worker.js') // Asegúrate de que la ruta sea correcta
       .then(registration => {
         console.log('Service Worker registrado con éxito:', registration);
       })
