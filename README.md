@@ -8,6 +8,14 @@ La interfaz está diseñada para ser responsiva y moderna, utilizando `styled-co
 
 ---
 
+## Despliegue de la Aplicación
+
+La aplicación está desplegada y disponible en el siguiente enlace:
+
+[API ANIMES - Despliegue](https://api-peliculas-react-one.vercel.app/)
+
+---
+
 ## Integrantes del Proyecto
 
 - **Kevin Duran**
@@ -68,7 +76,7 @@ Para convertir la aplicación en una PWA, se han seguido los siguientes pasos:
 
 3. Inicia el servidor de desarrollo:
    ```bash
-   npm run dev
+   npm start
    ```
 
 4. Abre la aplicación en tu navegador en `http://localhost:3000`.
