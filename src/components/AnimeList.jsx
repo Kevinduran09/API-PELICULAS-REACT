@@ -18,7 +18,6 @@ const AnimeList = () => {
     } catch (err) {
       // console.error(err);
       // setError('Error al cargar los animes. Recuperando desde caché...');
-
       
       // const cacheResponse = await caches.match('https://api.jikan.moe/v4/top/anime');
       // if (cacheResponse) {
@@ -51,8 +50,8 @@ const AnimeList = () => {
       <div
         className="anime-list"
         style={{
-          display: 'flex',
-          flexWrap: 'wrap',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, minmax(250px, 1fr))',
           gap: '20px',
           justifyContent: 'center',
         }}

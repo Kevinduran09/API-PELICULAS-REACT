@@ -51,18 +51,31 @@ const ContentWrapper = styled.div`
   justify-content: center;
   gap: 20px;
   margin-bottom: 30px;
-  align-items: stre;
+  align-items: stretch;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const LeftSection = styled.div`
   flex: 1;
   max-width: 400px;
   text-align: center;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 `;
 
 const RightSection = styled.div`
   flex: 2;
   max-width: 800px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 `;
 
 const AnimeDetail = () => {

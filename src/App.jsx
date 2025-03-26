@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import AnimeList from './components/AnimeList';
 import AnimeDetail from './components/AnimeDetail';
 import apiService from './services/peliculasApi'; 
@@ -20,6 +20,16 @@ const Header = styled.header`
   padding: 20px;
   text-align: center;
   font-size: 2rem;
+
+  a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #ff6b01;
+    }
+  }
 `;
 
 
@@ -43,7 +53,9 @@ const App = () => {
   return (
     <Router>
       <GlobalStyle />
-      <Header>API ANIMES</Header>
+      <Header>
+        <Link to="/">API ANIMES</Link>
+      </Header>
       <Routes>
         <Route path="/" element={<AnimeList />} />
         <Route path="/anime/:id" element={<AnimeDetail />} />
