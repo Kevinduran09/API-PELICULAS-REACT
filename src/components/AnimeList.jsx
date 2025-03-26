@@ -8,7 +8,7 @@ const App = () => {
 
   const fetchAnimes = async () => {
     try {
-      const response = await axios.get('https://api.jikan.moe/v4/top/anime');
+      const response = await axios.get('https://api.jikan.moe/v4/top/animy');
       console.log(response.data.data);
       
       setAnimes(response.data.data); // Actualiza el estado con los datos de la API
@@ -20,9 +20,10 @@ const App = () => {
       const cacheResponse = await caches.match('https://api.jikan.moe/v4/top/anime');
       if (cacheResponse) {
         const cachedData = await cacheResponse.json();
-        console.log(cachedData);
+        console.log(cachedData.data);
         
         setAnimes(cachedData.data); // Establece los datos en el estado desde la caché
+        setError(null); // Elimina el mensaje de error
       }
     } finally {
       setLoading(false); // Termina el estado de carga

@@ -7,22 +7,32 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', event => {
     // Redirige a la lógica de caché con red
-    
+    if (event.request.url.startsWith('chrome-extension://')) {
+        return; // No hacer nada si la solicitud es de una extensión de Chrome
+    }
     event.respondWith(handleFetch(event));
 });
 
 // Maneja las solicitudes con caché y red
 async function handleFetch(event) {
     const request = event.request;
+    // console.log(request);
+    
     let response = await fetch(request)
         .then(res => {
+            
+            
             if (!res) {
+                
+                
                 // Si no hay respuesta, intenta obtenerla desde la caché
                 return caches.match(request);
             }
             // Si hay respuesta de la API, la guardamos en la caché
             caches.open(CACHE_DYNAMIC_NAME).then(cache => {
-                    console.log(request);
+                  
+
+
                     
                     cache.put(request, res); // Guarda la respuesta en caché
                     clearCache(CACHE_DYNAMIC_NAME, 50); // Limita la cantidad de elementos en la caché
