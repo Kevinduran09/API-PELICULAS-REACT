@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import MovieList from "./components/MovieList";
-import MovieDetail from "./components/MovieDetail";
-import axios from "axios";
-import styled, { createGlobalStyle } from "styled-components";
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import AnimeList from './components/AnimeList';
+import AnimeDetail from './components/AnimeDetail';
+import apiService from './services/peliculasApi'; // Instancia de Axios para Jikan
+import styled, { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
     padding: 0;
-    background-color: #121212; /* Fondo oscuro */
-    color: white; /* Color de texto */
-    font-family: Arial, sans-serif; /* Fuente */
+    background-color: #121212;
+    color: white;
+    font-family: Arial, sans-serif;
   }
 `;
 
@@ -22,33 +22,56 @@ const Header = styled.header`
   font-size: 2rem;
 `;
 
-const App = () => {
-  const [movies, setMovies] = useState([]);
 
-  const fetchMovies = async () => {
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('./service-worker.js') // Asegúrate de que la ruta sea correcta
+      .then(registration => {
+        console.log('Service Worker registrado con éxito:', registration);
+      })
+      .catch(error => {
+        console.error('Error al registrar el Service Worker:', error);
+      });
+  });
+}
+
+
+const App = () => {
+  const [animes, setAnimes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchAnimes = async () => {
     try {
-      const response = await axios.get(
-        "https://api.themoviedb.org/3/movie/popular?api_key=1b8b158a66c40fa4abbdf5e3b7ef145e&language=es-ES&page=1"
-      );
-      setMovies(response.data.results);
+      const response = await apiService.get('top/anime'); // Jikan API
+      setAnimes(response.data.data);
     } catch (error) {
-      console.error("Error fetching movies:", error);
+      setError('Error al cargar los animes.');
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchMovies();
+    fetchAnimes();
   }, []);
+
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <Router>
       <GlobalStyle />
-      <Header>API PELÍCULAS</Header>
-
+      <Header>API ANIMES</Header>
       <Routes>
-        <Route path="/" element={<MovieList movies={movies} />} />
-
-        <Route path="/movie/:id" element={<MovieDetail movies={movies} />} />
+        <Route path="/" element={<AnimeList animes={animes} />} />
+        <Route path="/anime/:id" element={<AnimeDetail animes={animes} />} />
       </Routes>
     </Router>
   );
