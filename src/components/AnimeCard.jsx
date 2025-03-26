@@ -8,6 +8,9 @@ const Card = styled.div`
   width: 300px;
   margin: 20px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Asegura que el botón esté al final */
 `;
 
 const MovieImage = styled.img`
@@ -18,6 +21,9 @@ const MovieImage = styled.img`
 
 const CardContent = styled.div`
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Permite que el contenido crezca */
 `;
 
 const Title = styled.h2`
@@ -35,6 +41,7 @@ const Description = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
+
 const Rating = styled.div`
   font-size: 1rem;
   font-weight: bold;
@@ -42,17 +49,37 @@ const Rating = styled.div`
   margin-top: 10px;
 `;
 
-const MovieCard = ({ image, title, description, rating }) => {
+const DetailButton = styled.button`
+  margin-top: auto; /* Empuja el botón al final */
+  padding: 10px 15px;
+  background-color: #ff6b01;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e65a00;
+  }
+
+  &:active {
+    background-color: #cc4f00;
+  }
+`;
+
+const AnimeCard = ({ title, images, onDetailClick, synopsis }) => {
   return (
     <Card>
-      <MovieImage src={image} alt={title} />
+      <MovieImage src={images.webp.image_url} alt={title} />
       <CardContent>
         <Title>{title}</Title>
-        <Description>{description}</Description>
-        <Rating>⭐ {rating}/10</Rating>
+        <Description>{synopsis}</Description>
+        <DetailButton onClick={onDetailClick}>Ver Detalle</DetailButton>
       </CardContent>
     </Card>
   );
 };
 
-export default MovieCard;
+export default AnimeCard;

@@ -1,37 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; // Usamos Axios para hacer las peticiones a la API
+import axios from 'axios'; 
+import AnimeCard from './AnimeCard';
+import { useNavigate } from 'react-router-dom';
 
-const App = () => {
-  const [animes, setAnimes] = useState([]); // Estado para almacenar los animes
-  const [loading, setLoading] = useState(true); // Estado de carga
-  const [error, setError] = useState(null); // Estado de error
+const AnimeList = () => {
+  const [animes, setAnimes] = useState([]); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); 
+  const navigate = useNavigate(); // Hook para redireccionar
 
   const fetchAnimes = async () => {
     try {
-      const response = await axios.get('https://api.jikan.moe/v4/top/animy');
+      const response = await axios.get('https://api.jikan.moe/v4/top/anime');
       console.log(response.data.data);
       
-      setAnimes(response.data.data); // Actualiza el estado con los datos de la API
+      setAnimes(response.data.data); 
     } catch (err) {
-      console.error(err);
-      setError('Error al cargar los animes. Recuperando desde caché...');
+      // console.error(err);
+      // setError('Error al cargar los animes. Recuperando desde caché...');
 
-      // Si hay un error, intenta obtener los datos de la caché
-      const cacheResponse = await caches.match('https://api.jikan.moe/v4/top/anime');
-      if (cacheResponse) {
-        const cachedData = await cacheResponse.json();
-        console.log(cachedData.data);
+      
+      // const cacheResponse = await caches.match('https://api.jikan.moe/v4/top/anime');
+      // if (cacheResponse) {
+      //   const cachedData = await cacheResponse.json();
+      //   console.log(cachedData.data);
         
-        setAnimes(cachedData.data); // Establece los datos en el estado desde la caché
-        setError(null); // Elimina el mensaje de error
-      }
+      //   setAnimes(cachedData.data); 
+      //   setError(null); 
+      // }
     } finally {
-      setLoading(false); // Termina el estado de carga
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchAnimes(); // Llamamos a la función cuando el componente se monta
+    fetchAnimes(); 
   }, []);
 
   if (loading) {
@@ -43,20 +46,27 @@ const App = () => {
   }
 
   return (
-    <div>
-      <h1>Listado de Animes</h1>
-      <div className="anime-list">
+    <div style={{ padding: '20px' }}>
+      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Listado de Animes</h1>
+      <div
+        className="anime-list"
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '20px',
+          justifyContent: 'center',
+        }}
+      >
         {animes.map((anime) => (
-          <div key={anime.mal_id} className="anime-item">
-            <img src={anime.images.webp.image_url} alt={anime.title} />
-            <h2>{anime.title}</h2>
-            <p>{anime.synopsis}</p>
-            <a href={`/anime/${anime.mal_id}`}>Ver detalles</a>
-          </div>
+          <AnimeCard
+            key={anime.id}
+            {...anime}
+            onDetailClick={() => navigate(`/anime/${anime.mal_id}`)} // Redirige al detalle
+          />
         ))}
       </div>
     </div>
   );
 };
 
-export default App;
+export default AnimeList;

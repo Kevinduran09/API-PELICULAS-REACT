@@ -26,6 +26,8 @@ async function handleFetch(event) {
                 
                 
                 // Si no hay respuesta, intenta obtenerla desde la caché
+                console.log('devolviendo cache');
+                
                 return caches.match(request);
             }
             // Si hay respuesta de la API, la guardamos en la caché
@@ -42,6 +44,8 @@ async function handleFetch(event) {
             return res.clone(); // Devolvemos la respuesta original
         })
         .catch(async () => {
+            console.log('devolviendo de la cache');
+            
             // Si la API no responde, intenta con la caché
             return caches.match(request);
         });

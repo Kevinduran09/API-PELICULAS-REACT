@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AnimeList from './components/AnimeList';
 import AnimeDetail from './components/AnimeDetail';
-import apiService from './services/peliculasApi'; // Instancia de Axios para Jikan
+import apiService from './services/peliculasApi'; 
 import styled, { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
@@ -26,7 +26,7 @@ const Header = styled.header`
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
-      .register('/service-worker.js') // Asegúrate de que la ruta sea correcta
+      .register('/service-worker.js') 
       .then(registration => {
         console.log('Service Worker registrado con éxito:', registration);
       })
@@ -38,40 +38,15 @@ if ('serviceWorker' in navigator) {
 
 
 const App = () => {
-  const [animes, setAnimes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  const fetchAnimes = async () => {
-    try {
-      const response = await apiService.get('top/anime'); // Jikan API
-      setAnimes(response.data.data);
-    } catch (error) {
-      setError('Error al cargar los animes.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchAnimes();
-  }, []);
-
-  if (loading) {
-    return <div>Cargando...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
 
   return (
     <Router>
       <GlobalStyle />
       <Header>API ANIMES</Header>
       <Routes>
-        <Route path="/" element={<AnimeList animes={animes} />} />
-        <Route path="/anime/:id" element={<AnimeDetail animes={animes} />} />
+        <Route path="/" element={<AnimeList />} />
+        <Route path="/anime/:id" element={<AnimeDetail />} />
       </Routes>
     </Router>
   );
