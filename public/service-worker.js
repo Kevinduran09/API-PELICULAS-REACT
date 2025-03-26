@@ -25,12 +25,10 @@ async function handleFetch(event) {
             if (!res) {
                 
                 
-                // Si no hay respuesta, intenta obtenerla desde la caché
                 console.log('devolviendo cache');
                 
                 return caches.match(request);
             }
-            // Si hay respuesta de la API, la guardamos en la caché
             caches.open(CACHE_DYNAMIC_NAME).then(cache => {
                   
 
