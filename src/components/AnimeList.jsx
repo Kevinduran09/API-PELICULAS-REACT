@@ -50,12 +50,14 @@ const AnimeList = () => {
       <div
         className="anime-list"
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, minmax(250px, 1fr))',
+   
+          display:'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-around',
           gap: '20px',
-          justifyContent: 'center',
         }}
       >
+      
         {animes.map((anime) => (
           <AnimeCard
             key={anime.id}
